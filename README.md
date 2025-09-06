@@ -7,6 +7,9 @@ The pipeline ingests customer and booking data, performs transformations, and st
 
 ## 📌 Architecture
 
+![architecture](architecture.png)
+
+
 ```mermaid
 flowchart LR
     subgraph ADLS
