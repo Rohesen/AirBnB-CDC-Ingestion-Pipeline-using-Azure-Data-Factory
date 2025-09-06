@@ -224,5 +224,5 @@ Sample output:
 
 ## 👨‍💻 Author
 
-Built by **\Rohesen Maurya** as part of a learning project on Azure Data Engineering 🚀
+Built by **Rohesen Maurya** as part of a learning project on Azure Data Engineering 🚀
 
