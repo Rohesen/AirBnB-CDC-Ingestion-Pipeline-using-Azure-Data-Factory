@@ -3,8 +3,6 @@
 This project demonstrates a **Change Data Capture (CDC) data pipeline** for Airbnb-like booking data using **Azure services**.
 The pipeline ingests customer and booking data, performs transformations, and stores it in **Azure Synapse Analytics** for reporting and analytics.
 
----
-
 ## 📌 Architecture
 
 ![architecture](architecture.png)
