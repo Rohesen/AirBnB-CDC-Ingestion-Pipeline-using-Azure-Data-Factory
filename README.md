@@ -9,26 +9,25 @@ The pipeline ingests customer and booking data, performs transformations, and st
 
 ```mermaid
 flowchart LR
-    subgraph ADLS [ADLS (Every 30 mins)]
-        CData[Customer Data <br/> Cust-yyyy-mm-dd-hh]
+    subgraph ADLS
+        CData[Customer Data<br/>Cust-yyyy-mm-dd-hh]
     end
     
-    subgraph Cosmos [Cosmos DB]
+    subgraph CosmosDB
         BData[Bookings Collection]
     end
     
-    App[AirBnB App] --> Cosmos
+    App[AirBnB App] --> CosmosDB
     
     subgraph ADF [Azure Data Factory]
         direction TB
         P1[Pipeline 1 <br/> Load Customer Dim]
-        P2[Pipeline 2 <br/> Booking Data + Aggregation]
-        P3[Pipeline 3 <br/> Orchestration]
+        P2[Pipeline 2<br/>Booking Data + Aggregation]
+        P3[Pipeline 3<br/>Orchestration]
     end
     
-    ADLS --> P1 --> Synapse
-    Cosmos --> P2 --> Synapse
-    Synapse[(Azure Synapse DW)]
+    ADLS --> P1 --> Synapse[(Azure Synapse DW)]
+    CosmosDB --> P2 --> Synapse
     
     P3 --> P1
     P3 --> P2
