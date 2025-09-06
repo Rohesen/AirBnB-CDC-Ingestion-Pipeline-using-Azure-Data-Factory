@@ -56,7 +56,7 @@ flowchart LR
 ```
 ├── mock_data_in_cosmosdb.py     # Python script to generate mock booking data
 ├── synapse_tables.sql           # DDL for Synapse tables & stored procedures
-├── adf/                         # JSON export of ADF pipelines (if exported)
+├── Project_Screenshots          # screenshots
 ├── README.md                    # Documentation
 ```
 
