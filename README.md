@@ -77,6 +77,8 @@ This will generate bookings with fields like:
 
 * `booking_id`, `customer_id`, `property_id`, `check_in_date`, `check_out_date`, `amount`, `currency`, `location`, `timestamp`
 
+![cosmosdb](Project_Screenshots/cosmosdbtable.png)
+
 ---
 
 ### 2. Synapse – Schema Setup
@@ -97,6 +99,11 @@ CREATE TABLE airbnb.bookings_fact (...);
 CREATE TABLE airbnb.BookingCustomerAggregation AS ...
 CREATE PROCEDURE airbnb.BookingAggregation AS ...
 ```
+![synapse_dim](Project_Screenshots/synapse_airbnb_customer_dim_table.png)
+
+![synapse_fact](Project_Screenshots/synapse_airbnb_bookings_fact_table.png)
+
+![synapse_agg](Project_Screenshots/synapse_airbnb_booking_customer_agg_table.png) 
 
 ---
 
@@ -107,7 +114,7 @@ Create a container named **`airbnb`** with:
 * `customer_raw_data/` – Raw customer files (CSV/Parquet)
 * `customer_archive/` – Archived files
 * `synapse_stage/` – Staging files
-
+![adls](Project_Screenshots/airbnb_adls_container.png)
 ---
 
 ### 4. ADF Setup
@@ -118,6 +125,8 @@ Create **Linked Services**:
 * `AzureSynapseAnalytics1` → Synapse DWH
 * `CosmosDB` → Cosmos DB database `AirBnB`
 
+![linkedservices](Project_Screenshots/linkedservice_adf.png)
+
 Create **Datasets**:
 
 1. `BookingDataCosmos` → Cosmos container `bookings`
@@ -125,7 +134,6 @@ Create **Datasets**:
 3. `CustomerDataRaw` → ADLS `customer_raw_data`
 4. `CustomerDataArchive` → ADLS `customer_archive`
 5. `CustomerDataSynapse` → Synapse table `customer_dim`
-
 ---
 
 ## 🔄 Pipelines
@@ -136,6 +144,8 @@ Create **Datasets**:
 * ForEach → Copy Data → Upsert into `customer_dim`
 * Copy Data → Archive folder
 * Delete Activity → Remove processed raw files
+* 
+![pipeline1](Project_Screenshots/LoadCustomerDimPipeline.png)
 
 ### Pipeline 2 – **BookingDataTransformations**
 
@@ -146,12 +156,19 @@ Create **Datasets**:
 * Alter Row: decide insert/update
 * Sink: `bookings_fact` (upsert mode)
 * Stored Procedure: `BookingAggregation` (refresh country-level aggregations)
+  
+![pipeline2](Project_Screenshots/LoadBookingFactPipeline.png)
+
+![dataflow](Project_Screenshots/BookingDataTransDataFlow.png)
+
 
 ### Pipeline 3 – **Orchestration**
 
 * Execute **Pipeline 1**
 * Execute **Pipeline 2**
 * Send **Notification** (success/failure)
+
+![airbnbcdc](Project_Screenshots/AirBnBCDCPipeline.png)
 
 ---
 
@@ -179,6 +196,8 @@ Sample output:
 2. **Cosmos DB** change feed automatically streams new booking events → Pipeline 2
 3. Orchestrator (Pipeline 3) runs both pipelines and notifies upon completion
 
+![pipelinerun](Project_Screenshots/PipelineRunHistory.png) 
+
 ---
 
 ## ✅ Features
@@ -205,5 +224,5 @@ Sample output:
 
 ## 👨‍💻 Author
 
-Built by **\[Rohesen]** as part of a learning project on Azure Data Engineering 🚀
+Built by **\Rohesen Maurya** as part of a learning project on Azure Data Engineering 🚀
 
